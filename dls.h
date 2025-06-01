@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-
 using namespace std;
 
 class Dls{
@@ -21,32 +20,66 @@ class Dls{
             visited = stack;
         }
 
-        
         bool search(vector<string> input, int limit) {
             VectorStack storage;
             if(input == goal){
+                printVector(goal);
+                return true;
+            }
+            storage.push(input);
+                while(!storage.empty()){
+                vector<string> current = storage.top();
+                vector<string> neighbor = nextNeighbor(current);
+                
+                if(!neighbor.empty()){
+                        if(neighbor == goal) {
+                            path = storage;
+                            return true;
+                        }
+                        if(storage.size() < limit && !storage.hasElement(neighbor)){
+                            storage.push(neighbor);
+                        }
+                }else{
+                        storage.pop();
+                }
+            }
+            return false;
+        }
+
+        /*
+        bool search(vector<string> input, int limit) {
+            VectorStack storage;
+            if(input == goal){
+                printVector(goal);
                 return true;
             }
             storage.push(input);
             while(!storage.empty()){
-            vector<string> current = storage.top();
-            vector<string> neighbor = nextNeighbor(current);
-            if(!neighbor.empty()){
-                    if(neighbor == goal) {
-                        path = storage;
-                        return true;
+                vector<string> current = storage.top();
+                vector<vector<string>> neighbors = nextNeighbors(current);
+                bool pushed = false;
+                if(!neighbors.empty()){
+                    for(auto neighbor : neighbors){
+                        if(neighbor == goal) {
+                            path = storage;
+                            return true;
+                        }
+                        if(!pushed && storage.size() < limit && !storage.hasElement(neighbor)){
+                            storage.push(neighbor);
+                            pushed = true;
+                        }
                     }
-                    if(storage.size() < limit && !storage.hasElement(neighbor)){
-                        storage.push(neighbor);
-                    }
-            }else{
+                }
+                if(!pushed){
                     storage.pop();
-            }
+                }
+
             }
             return false;
         }
+
+        */
         
-       
         void printStack(){
 
             VectorStack inv_stack;
@@ -94,6 +127,7 @@ class Dls{
             int col = loc_e % 3;
 
             if(row > 0){
+                neighbor = current;h
                 neighbor[loc_e] = current[loc_e - 3];
                 neighbor[loc_e - 3] = "e";
                 if(!visited.hasElement(neighbor)){
@@ -131,8 +165,76 @@ class Dls{
                     return neighbor;
                 }
             }
-            
+
             return {};
     }
+
+    /*
+
+    vector<vector<string>> nextNeighbors(vector<string> current){
+            vector<string> neighbor = current;
+            vector<vector<string>> neighbors;
+            int loc_e = 0;
+
+            while (current[loc_e] != "e")
+            {
+                loc_e++;
+            }
+
+            if(loc_e < 0 || loc_e > 8){
+                cout << "Error with Boundaries";
+                return neighbors;
+            }
+
+            int row = loc_e / 3;
+            int col = loc_e % 3;
+
+            if(row > 0){
+                neighbor[loc_e] = current[loc_e - 3];
+                neighbor[loc_e - 3] = "e";
+                if(!visited.hasElement(neighbor)){
+                    visited.push(neighbor);
+                    neighbors.push_back(neighbor);
+                }
+            }
+
+            if(row < 2){
+                neighbor = current;
+                neighbor[loc_e] = current[loc_e + 3];
+                neighbor[loc_e + 3] = "e";
+                 if(!visited.hasElement(neighbor)){
+                    visited.push(neighbor);
+                    neighbors.push_back(neighbor);
+                }
+            }
+
+            if (col > 0){
+                neighbor = current;
+                neighbor[loc_e] = current[loc_e - 1];
+                neighbor[loc_e - 1] = "e";
+                 if(!visited.hasElement(neighbor)){
+                    visited.push(neighbor);
+                    neighbors.push_back(neighbor);
+                }
+            }
+
+            if (col < 2){
+                neighbor = current;
+                neighbor[loc_e] = current[loc_e + 1];
+                neighbor[loc_e + 1] = "e";
+                 if(!visited.hasElement(neighbor)){
+                    visited.push(neighbor);
+                    neighbors.push_back(neighbor);
+                }
+            }
+
+            if(neighbors.empty()){
+                return {};
+            }
+
+            return neighbors;
+    }
+
+    */
 };
     

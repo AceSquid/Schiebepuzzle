@@ -1,8 +1,7 @@
 #include "parameter_reader.h"
-#include "dls2.h"
+#include "dls.h"
 #include "vector_stack.h"
 #include <iostream>
-
 
 using namespace std;
 
@@ -89,7 +88,7 @@ bool ids(vector<string> input, int upper_bound){
         }
 
     }
-     dls.printStack();
+    dls.printStack();
     return found;
 
 }
@@ -106,12 +105,10 @@ int main(int argc, char** argv) {
     */
 
 
+    ids(input_vector, 31);
 
-    //cout << checkPossibility(input_vector);
-    //ids(input_vector, 31);
-
-    Dls dls;
-    cout << dls.search(input_vector, 31);
+    //Dls dls;
+    //cout << dls.search(input_vector, 25);
 
    
 
